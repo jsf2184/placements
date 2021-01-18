@@ -1,6 +1,6 @@
 package com.jefff.exercise.model;
 
-import com.jefff.exercise.FieldMapper;
+import com.jefff.exercise.utility.FieldMapper;
 import org.junit.Assert;
 import org.junit.Test;
 

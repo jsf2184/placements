@@ -1,6 +1,6 @@
 package com.jefff.exercise.model;
 
-import com.jefff.exercise.FieldMapper;
+import com.jefff.exercise.utility.FieldMapper;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -9,22 +9,22 @@ public class ParserTest {
 
     @Test
     public void testGoodImpressionParse() {
-        ImpressionRecord expected = new ImpressionRecord(3, FieldMapper.toDate(2020, 1, 24), 2345);
-        final ImpressionRecord actual = parser.parseImpression("3,01/24/2020,2345", 1);
+        DeliveryRecord expected = new DeliveryRecord(3, FieldMapper.toDate(2020, 1, 24), 2345);
+        final DeliveryRecord actual = parser.parseDelivery("3,01/24/2020,2345", 1);
         Assert.assertEquals(expected, actual);
     }
 
     @Test
     public void testBadImpressionParse() {
-        Assert.assertNull(parser.parseImpression(null, 1));
-        Assert.assertNull(parser.parseImpression("", 2));
-        Assert.assertNull(parser.parseImpression(",,", 3));
-        Assert.assertNull(parser.parseImpression("3,,", 4));
-        Assert.assertNull(parser.parseImpression("3,01/24/2020,", 5));
-        Assert.assertNull(parser.parseImpression("3,01/24/202x,2345", 6));
-        Assert.assertNull(parser.parseImpression("3,01/24/2020,abc", 7));
-        Assert.assertNull(parser.parseImpression("abc,01/24/2020,2345", 8));
-        Assert.assertNull(parser.parseImpression("3,01/24/2020,2345,4", 9));
+        Assert.assertNull(parser.parseDelivery(null, 1));
+        Assert.assertNull(parser.parseDelivery("", 2));
+        Assert.assertNull(parser.parseDelivery(",,", 3));
+        Assert.assertNull(parser.parseDelivery("3,,", 4));
+        Assert.assertNull(parser.parseDelivery("3,01/24/2020,", 5));
+        Assert.assertNull(parser.parseDelivery("3,01/24/202x,2345", 6));
+        Assert.assertNull(parser.parseDelivery("3,01/24/2020,abc", 7));
+        Assert.assertNull(parser.parseDelivery("abc,01/24/2020,2345", 8));
+        Assert.assertNull(parser.parseDelivery("3,01/24/2020,2345,4", 9));
     }
 
     @Test

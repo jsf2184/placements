@@ -1,5 +1,6 @@
 package com.jefff.exercise;
 
+import com.jefff.exercise.utility.FieldMapper;
 import org.junit.Assert;
 import org.junit.Test;
 

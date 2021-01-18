@@ -1,6 +1,6 @@
 package com.jefff.exercise.model;
 
-import com.jefff.exercise.FieldMapper;
+import com.jefff.exercise.utility.FieldMapper;
 import lombok.extern.slf4j.Slf4j;
 
 import java.time.LocalDate;
@@ -10,13 +10,13 @@ public class Parser {
     public static final int NUM_IMPRESSION_FIELDS = 3;
     public static final int NUM_PLACEMENT_FIELDS = 5;
 
-    ImpressionRecord parseImpression(String csvLine, int lineNumber) {
+    DeliveryRecord parseDelivery(String csvLine, int lineNumber) {
         try {
             final String[] parts = validateNumFields(csvLine, NUM_IMPRESSION_FIELDS, "Impression", lineNumber);
             final int placementId = toInteger(parts[0], "placementId", "Impression", lineNumber);
             final LocalDate date = toLocalDate(parts[1], "date", "Impression", lineNumber);
             final int numImpressions = toInteger(parts[2], "numImpressions", "Impression", lineNumber);
-            return new ImpressionRecord(placementId, date, numImpressions);
+            return new DeliveryRecord(placementId, date, numImpressions);
         } catch (Exception ignore) {
             return null;
         }

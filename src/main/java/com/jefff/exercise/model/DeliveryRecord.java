@@ -7,7 +7,7 @@ import java.time.LocalDate;
 
 @Data
 @AllArgsConstructor
-public class ImpressionRecord {
+public class DeliveryRecord {
     final int placementId;
     final LocalDate date;
     final int numImpressions;
