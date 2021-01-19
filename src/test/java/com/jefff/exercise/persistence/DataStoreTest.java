@@ -47,7 +47,7 @@ public class DataStoreTest {
     }
 
     @Test
-    public void testRetrieveInRange() {
+    public void testRetrieveDeliverRecordsInRange() {
         // Retrieve an interesting range, the dates for which have no records,
         // but which should include those records from 12/1 and 12/7
         DateRange dateRange = new DateRange(NOV_1, DEC_10);

@@ -4,13 +4,14 @@ import com.jefff.exercise.utility.FieldMapper;
 import lombok.extern.slf4j.Slf4j;
 
 import java.time.LocalDate;
+import java.util.Arrays;
 
 @Slf4j
 public class Parser {
     public static final int NUM_IMPRESSION_FIELDS = 3;
     public static final int NUM_PLACEMENT_FIELDS = 5;
 
-    DeliveryRecord parseDelivery(String csvLine, int lineNumber) {
+    public DeliveryRecord parseDelivery(String csvLine, int lineNumber) {
         try {
             final String[] parts = validateNumFields(csvLine, NUM_IMPRESSION_FIELDS, "Impression", lineNumber);
             final int placementId = toInteger(parts[0], "placementId", "Impression", lineNumber);
@@ -22,7 +23,7 @@ public class Parser {
         }
     }
 
-    PlacementRecord parsePlacement(String csvLine, int lineNumber) {
+    public PlacementRecord parsePlacement(String csvLine, int lineNumber) {
         try {
             final String[] parts = validateNumFields(csvLine, NUM_PLACEMENT_FIELDS, "Placement", lineNumber);
             final int id = toInteger(parts[0], "id", "Placement", lineNumber);
@@ -48,7 +49,7 @@ public class Parser {
             throw new Exception();
         }
 
-        final String[] parts = line.split(",");
+        final String[] parts = Arrays.stream(line.split(",")).map(String::trim).toArray(String[]::new);
         if (parts.length != numExpectedFields) {
             log.warn("{} Parsing Error. Incorrect number of fields on line number: {}, expecting {} fields",
                      recordName, lineNumber, numExpectedFields);

@@ -29,6 +29,7 @@ public class PaddedArrayList<T> extends ArrayList<T> {
         int size = this.size();
         if (index <= size) {
             super.add(index, element);
+            return;
         }
         for (int i = size; i < index; i++) {
             super.add(null);
