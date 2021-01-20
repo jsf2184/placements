@@ -6,6 +6,7 @@ import org.junit.Test;
 
 public class ParserTest {
     Parser parser = new Parser();
+    public static final String SPORTS_PLACEMENT_LINE = "1,Sports,11/1/20,11/30/20,5";
 
     @Test
     public void testGoodImpressionParse() {
@@ -34,7 +35,7 @@ public class ParserTest {
                                                        FieldMapper.toDate(2020, 11, 1),
                                                        FieldMapper.toDate(2020, 11, 30),
                                                        5);
-        final PlacementRecord actual = parser.parsePlacement("1,Sports,11/1/20,11/30/20,5", 1);
+        final PlacementRecord actual = parser.parsePlacement(SPORTS_PLACEMENT_LINE, 1);
         Assert.assertEquals(expected, actual);
     }
 

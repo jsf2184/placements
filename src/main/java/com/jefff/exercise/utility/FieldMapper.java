@@ -1,5 +1,8 @@
 package com.jefff.exercise.utility;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.text.NumberFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -9,7 +12,22 @@ public class FieldMapper {
     public static final DateTimeFormatter DATE_PARSE_FORMATTER = DateTimeFormatter.ofPattern(PARSE_PATTERN);
     public static final String OUT_PATTERN = "M/d/yyyy";
     public static final DateTimeFormatter DATE_OUTPUT_FORMATTER = DateTimeFormatter.ofPattern(OUT_PATTERN);
+    public static final NumberFormat NUMBER_FORMAT;
 
+    static {
+        NUMBER_FORMAT = NumberFormat.getNumberInstance();
+        NUMBER_FORMAT.setGroupingUsed(true);
+    }
+
+    public static String formatNumber(long num) {
+        return NUMBER_FORMAT.format(num);
+    }
+
+    public static long roundDouble(Double d) {
+        BigDecimal bd = new BigDecimal(d);
+        bd = bd.setScale(0, RoundingMode.HALF_UP);
+        return bd.longValue();
+    }
 
     public static LocalDate toDate(String str) {
         if (isEmpty(str)) {
