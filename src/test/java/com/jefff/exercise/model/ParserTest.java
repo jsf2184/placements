@@ -28,6 +28,7 @@ public class ParserTest {
         Assert.assertNull(parser.parseDelivery("3,01/24/2020,2345,4", 9));
     }
 
+
     @Test
     public void testGoodPlacementParse() {
         PlacementRecord expected = new PlacementRecord(1,
@@ -56,6 +57,15 @@ public class ParserTest {
         Assert.assertNull(parser.parsePlacement("1,Sports,11/x/20,11/30/20,5", 11));
         Assert.assertNull(parser.parsePlacement("1,Sports,11/1/20,11/34/20,5", 12));
         Assert.assertNull(parser.parsePlacement("1,Sports,11/1/20,11/30/20,x", 13));
-
     }
+
+    @Test
+    public void testGoodDateRangeParse() {
+        DateRange expected = new DateRange(FieldMapper.toDate(2020, 11, 1), FieldMapper.toDate(2020, 11, 30));
+        DateRange actual = parser.parseDateRange("11/1/2020-11/30/2020", 1);
+        Assert.assertEquals(expected, actual);
+        actual = parser.parseDateRange("11/01/20-11/30/2020", 1);
+        Assert.assertEquals(expected, actual);
+    }
+
 }

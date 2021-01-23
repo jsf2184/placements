@@ -60,7 +60,6 @@ public class PlacementCount {
                              FieldMapper.formatDate(getEnd()),
                              FieldMapper.formatNumber(impressionCount),
                              FieldMapper.formatNumber(getCpm()),
-                             FieldMapper.formatNumber(getCpmRoundedCost())
-        );
+                             FieldMapper.formatNumber(getCpmRoundedCost()));
     }
 }

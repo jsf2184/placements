@@ -10,10 +10,16 @@ import java.util.Arrays;
 public class Parser {
     public static final int NUM_IMPRESSION_FIELDS = 3;
     public static final int NUM_PLACEMENT_FIELDS = 5;
+    public static final int NUM_RANGE_FIELDS = 2;
 
     public DeliveryRecord parseDelivery(String csvLine, int lineNumber) {
+        if (lineNumber == 1) {
+            // Don't bother parsing the header line.
+            return null;
+        }
+
         try {
-            final String[] parts = validateNumFields(csvLine, NUM_IMPRESSION_FIELDS, "Impression", lineNumber);
+            final String[] parts = validateNumFields(csvLine, ",", NUM_IMPRESSION_FIELDS, "Impression", lineNumber);
             final int placementId = toInteger(parts[0], "placementId", "Impression", lineNumber);
             final LocalDate date = toLocalDate(parts[1], "date", "Impression", lineNumber);
             final int numImpressions = toInteger(parts[2], "numImpressions", "Impression", lineNumber);
@@ -24,8 +30,13 @@ public class Parser {
     }
 
     public PlacementRecord parsePlacement(String csvLine, int lineNumber) {
+        if (lineNumber == 1) {
+            // Don't bother parsing the header line.
+            return null;
+        }
+
         try {
-            final String[] parts = validateNumFields(csvLine, NUM_PLACEMENT_FIELDS, "Placement", lineNumber);
+            final String[] parts = validateNumFields(csvLine, ",", NUM_PLACEMENT_FIELDS, "Placement", lineNumber);
             final int id = toInteger(parts[0], "id", "Placement", lineNumber);
             final String name = validateString(parts[1], "name", "Placement", lineNumber);
             final LocalDate start = toLocalDate(parts[2], "start", "Placement", lineNumber);
@@ -38,7 +49,25 @@ public class Parser {
 
     }
 
+    public DateRange parseDateRange(String rangeLine, int lineNumber) {
+        // remove all white space.
+        rangeLine = rangeLine.replaceAll("\\s+", "");
+        // split on the '-' that should separate the 2 parts
+        try {
+            final String[] parts = validateNumFields(rangeLine, "-", NUM_RANGE_FIELDS, "DateRange", lineNumber);
+            final LocalDate start = toLocalDate(parts[0], "start", "DateRange", lineNumber);
+            final LocalDate end = toLocalDate(parts[1], "end", "DateRange", lineNumber);
+            return new DateRange(start, end);
+
+        } catch (Exception ignore) {
+            return null;
+        }
+
+
+    }
+
     public static String[] validateNumFields(String line,
+                                             String splitChar,
                                              int numExpectedFields,
                                              String recordName,
                                              int lineNumber) throws Exception {
@@ -49,7 +78,7 @@ public class Parser {
             throw new Exception();
         }
 
-        final String[] parts = Arrays.stream(line.split(",")).map(String::trim).toArray(String[]::new);
+        final String[] parts = Arrays.stream(line.split(splitChar)).map(String::trim).toArray(String[]::new);
         if (parts.length != numExpectedFields) {
             log.warn("{} Parsing Error. Incorrect number of fields on line number: {}, expecting {} fields",
                      recordName, lineNumber, numExpectedFields);
@@ -58,6 +87,7 @@ public class Parser {
         return parts;
 
     }
+
 
     public static String validateString(String str, String fieldName, String recordName, int lineNumber) throws Exception {
         if (FieldMapper.isEmpty(str)) {
