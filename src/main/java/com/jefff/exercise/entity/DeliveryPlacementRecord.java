@@ -1,5 +1,7 @@
-package com.jefff.exercise.model;
+package com.jefff.exercise.entity;
 
+import com.jefff.exercise.entity.DeliveryRecord;
+import com.jefff.exercise.entity.PlacementRecord;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 

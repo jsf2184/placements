@@ -1,5 +1,6 @@
-package com.jefff.exercise.model;
+package com.jefff.exercise.api.response;
 
+import com.jefff.exercise.api.request.DateRange;
 import com.jefff.exercise.utility.FieldMapper;
 
 public class DateRangeQueryResponse {

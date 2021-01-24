@@ -1,10 +1,10 @@
 package com.jefff.exercise.service;
 
-import com.jefff.exercise.collection.PaddedArrayList;
+import com.jefff.exercise.utility.PaddedArrayList;
 import com.jefff.exercise.io.input.LineStream;
-import com.jefff.exercise.model.DateRangeQueryResponse;
-import com.jefff.exercise.model.DeliveryRecord;
-import com.jefff.exercise.model.PlacementCount;
+import com.jefff.exercise.api.response.DateRangeQueryResponse;
+import com.jefff.exercise.entity.DeliveryRecord;
+import com.jefff.exercise.api.response.PlacementCount;
 import com.jefff.exercise.persistence.DataStore;
 import lombok.extern.slf4j.Slf4j;
 

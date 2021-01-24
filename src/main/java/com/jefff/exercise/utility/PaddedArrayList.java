@@ -1,4 +1,4 @@
-package com.jefff.exercise.collection;
+package com.jefff.exercise.utility;
 
 import java.util.ArrayList;
 import java.util.Collection;

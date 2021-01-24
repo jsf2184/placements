@@ -1,7 +1,7 @@
 package com.jefff.exercise.persistence;
 
-import com.jefff.exercise.model.DateRange;
-import com.jefff.exercise.model.DeliveryRecord;
+import com.jefff.exercise.api.request.DateRange;
+import com.jefff.exercise.entity.DeliveryRecord;
 import com.jefff.exercise.utility.FieldMapper;
 import org.junit.Assert;
 import org.junit.Before;

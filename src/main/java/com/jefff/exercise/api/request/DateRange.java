@@ -1,4 +1,4 @@
-package com.jefff.exercise.model;
+package com.jefff.exercise.api.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

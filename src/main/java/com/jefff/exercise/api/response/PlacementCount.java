@@ -1,5 +1,6 @@
-package com.jefff.exercise.model;
+package com.jefff.exercise.api.response;
 
+import com.jefff.exercise.entity.PlacementRecord;
 import com.jefff.exercise.utility.FieldMapper;
 import lombok.Data;
 

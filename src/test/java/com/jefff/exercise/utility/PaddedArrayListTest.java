@@ -1,5 +1,6 @@
-package com.jefff.exercise.collection;
+package com.jefff.exercise.utility;
 
+import com.jefff.exercise.utility.PaddedArrayList;
 import org.junit.Assert;
 import org.junit.Test;
 

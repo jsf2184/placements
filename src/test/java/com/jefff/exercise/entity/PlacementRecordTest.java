@@ -1,5 +1,6 @@
-package com.jefff.exercise.model;
+package com.jefff.exercise.entity;
 
+import com.jefff.exercise.entity.PlacementRecord;
 import com.jefff.exercise.utility.FieldMapper;
 import org.junit.Assert;
 import org.junit.Test;

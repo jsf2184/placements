@@ -1,22 +1,24 @@
 package com.jefff.exercise;
 
-import com.jefff.exercise.collection.PaddedArrayList;
+import com.jefff.exercise.utility.PaddedArrayList;
 import com.jefff.exercise.io.input.LineStream;
-import com.jefff.exercise.model.Parser;
-import com.jefff.exercise.model.PlacementCount;
+import com.jefff.exercise.api.response.DateRangeQueryResponse;
+import com.jefff.exercise.utility.Parser;
+import com.jefff.exercise.api.response.PlacementCount;
 import com.jefff.exercise.persistence.DataStore;
 import com.jefff.exercise.service.ReportingService;
 import com.jefff.exercise.utility.ArgParser;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.Objects;
+import java.util.stream.Stream;
 
 @Slf4j
 public class Processor {
     private final Parser parser;
-    private final LineStream placementInputStream;
-    private final LineStream deliveryInputStream;
-    private final LineStream queryInputStream;
+    private final LineStream placementLineStream;
+    private final LineStream deliveryLineStream;
+    private final LineStream queryLineStream;
     private final DataStore dataStore;
     private ReportingService reportingService;
 
@@ -44,7 +46,7 @@ public class Processor {
             return;
         }
 
-        Parser parser = new Parser();
+        Parser parser = new Parser(true);
         DataStore dataStore = new DataStore();
         ReportingService reportingService = new ReportingService(dataStore);
         Processor processor = new Processor(parser,
@@ -58,16 +60,16 @@ public class Processor {
     }
 
     public Processor(Parser parser,
-                     LineStream placementInputStream,
-                     LineStream deliveryInputStream,
-                     LineStream queryInputStream,
+                     LineStream placementLineStream,
+                     LineStream deliveryLineStream,
+                     LineStream queryLineStream,
                      DataStore dataStore,
                      ReportingService reportingService) {
 
         this.parser = parser;
-        this.placementInputStream = placementInputStream;
-        this.deliveryInputStream = deliveryInputStream;
-        this.queryInputStream = queryInputStream;
+        this.placementLineStream = placementLineStream;
+        this.deliveryLineStream = deliveryLineStream;
+        this.queryLineStream = queryLineStream;
         this.dataStore = dataStore;
         this.reportingService = reportingService;
     }
@@ -75,23 +77,29 @@ public class Processor {
 
     public void process() {
         persistData();
+        // Create our standard report (Counts per Placement)
         final PaddedArrayList<PlacementCount> placementCounts = reportingService.generatePrimaryReport();
+        // And print the report
         reportingService.printPrimaryReport(placementCounts);
-        reportingService.generateDateQueryReponseStream(queryInputStream);
+
+        // And now process our range query requests
+
+        Stream<DateRangeQueryResponse> rangeQueryResponseStream = reportingService.generateDateQueryReponseStream(queryLineStream);
+        // And print the rangeQuery responses
 
 
     }
 
     public void persistData() {
-        placementInputStream.getStream()
-                            .map(line -> parser.parsePlacement(line.getText(), line.getLineNumber()))
-                            .filter(Objects::nonNull)
-                            .forEach(dataStore::add);
-
-        deliveryInputStream.getStream()
-                           .map(line -> parser.parseDelivery(line.getText(), line.getLineNumber()))
+        placementLineStream.getStream()
+                           .map(line -> parser.parsePlacement(line.getText(), line.getLineNumber()))
                            .filter(Objects::nonNull)
                            .forEach(dataStore::add);
+
+        deliveryLineStream.getStream()
+                          .map(line -> parser.parseDelivery(line.getText(), line.getLineNumber()))
+                          .filter(Objects::nonNull)
+                          .forEach(dataStore::add);
     }
 
 

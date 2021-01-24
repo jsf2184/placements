@@ -1,10 +1,10 @@
 package com.jefff.exercise.persistence;
 
-import com.jefff.exercise.collection.PaddedArrayList;
-import com.jefff.exercise.model.DateRange;
-import com.jefff.exercise.model.DeliveryPlacementRecord;
-import com.jefff.exercise.model.DeliveryRecord;
-import com.jefff.exercise.model.PlacementRecord;
+import com.jefff.exercise.utility.PaddedArrayList;
+import com.jefff.exercise.api.request.DateRange;
+import com.jefff.exercise.entity.DeliveryPlacementRecord;
+import com.jefff.exercise.entity.DeliveryRecord;
+import com.jefff.exercise.entity.PlacementRecord;
 
 import java.time.LocalDate;
 import java.util.*;

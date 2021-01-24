@@ -1,4 +1,4 @@
-package com.jefff.exercise;
+package com.jefff.exercise.utility;
 
 import com.jefff.exercise.utility.ArgParser;
 import org.junit.Assert;

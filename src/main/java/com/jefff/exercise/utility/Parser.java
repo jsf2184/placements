@@ -1,6 +1,8 @@
-package com.jefff.exercise.model;
+package com.jefff.exercise.utility;
 
-import com.jefff.exercise.utility.FieldMapper;
+import com.jefff.exercise.api.request.DateRange;
+import com.jefff.exercise.entity.DeliveryRecord;
+import com.jefff.exercise.entity.PlacementRecord;
 import lombok.extern.slf4j.Slf4j;
 
 import java.time.LocalDate;
@@ -12,8 +14,14 @@ public class Parser {
     public static final int NUM_PLACEMENT_FIELDS = 5;
     public static final int NUM_RANGE_FIELDS = 2;
 
+    boolean skipHeaderLine;
+
+    public Parser(boolean skipHeaderLine) {
+        this.skipHeaderLine = skipHeaderLine;
+    }
+
     public DeliveryRecord parseDelivery(String csvLine, int lineNumber) {
-        if (lineNumber == 1) {
+        if (lineNumber == 1 && skipHeaderLine) {
             // Don't bother parsing the header line.
             return null;
         }
@@ -30,7 +38,7 @@ public class Parser {
     }
 
     public PlacementRecord parsePlacement(String csvLine, int lineNumber) {
-        if (lineNumber == 1) {
+        if (lineNumber == 1 && skipHeaderLine) {
             // Don't bother parsing the header line.
             return null;
         }
@@ -51,6 +59,9 @@ public class Parser {
 
     public DateRange parseDateRange(String rangeLine, int lineNumber) {
         // remove all white space.
+        if (rangeLine == null) {
+            return null;
+        }
         rangeLine = rangeLine.replaceAll("\\s+", "");
         // split on the '-' that should separate the 2 parts
         try {

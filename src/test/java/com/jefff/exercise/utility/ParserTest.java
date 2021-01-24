@@ -1,17 +1,21 @@
-package com.jefff.exercise.model;
+package com.jefff.exercise.utility;
 
+import com.jefff.exercise.api.request.DateRange;
+import com.jefff.exercise.entity.DeliveryRecord;
+import com.jefff.exercise.entity.PlacementRecord;
 import com.jefff.exercise.utility.FieldMapper;
+import com.jefff.exercise.utility.Parser;
 import org.junit.Assert;
 import org.junit.Test;
 
 public class ParserTest {
-    Parser parser = new Parser();
+    Parser parser = new Parser(false);
     public static final String SPORTS_PLACEMENT_LINE = "1,Sports,11/1/20,11/30/20,5";
 
     @Test
     public void testGoodImpressionParse() {
         DeliveryRecord expected = new DeliveryRecord(3, FieldMapper.toDate(2020, 1, 24), 2345);
-        final DeliveryRecord actual = parser.parseDelivery("3,01/24/2020,2345", 1);
+        final DeliveryRecord actual = parser.parseDelivery("3,01/24/2020,2345", 2);
         Assert.assertEquals(expected, actual);
     }
 
@@ -67,5 +71,17 @@ public class ParserTest {
         actual = parser.parseDateRange("11/01/20-11/30/2020", 1);
         Assert.assertEquals(expected, actual);
     }
+
+    @Test
+    public void testBadDateRangeParse() {
+        Assert.assertNull(parser.parseDateRange("11/1/20+11/30/20", 1));
+        Assert.assertNull(parser.parseDateRange("11/1/20 11/30/20", 1));
+        Assert.assertNull(parser.parseDateRange("11/1/20-11/30/", 1));
+        Assert.assertNull(parser.parseDateRange("11/1/20-11/30/20X", 1));
+        Assert.assertNull(parser.parseDateRange("11/1/20", 1));
+        Assert.assertNull(parser.parseDateRange("", 1));
+        Assert.assertNull(parser.parseDateRange(null, 1));
+    }
+
 
 }
