@@ -1,10 +1,9 @@
 package com.jefff.exercise.persistence;
 
-import com.jefff.exercise.utility.PaddedArrayList;
 import com.jefff.exercise.api.request.DateRange;
-import com.jefff.exercise.entity.DeliveryPlacementRecord;
 import com.jefff.exercise.entity.DeliveryRecord;
 import com.jefff.exercise.entity.PlacementRecord;
+import com.jefff.exercise.utility.PaddedArrayList;
 
 import java.time.LocalDate;
 import java.util.*;
@@ -60,10 +59,6 @@ public class DataStore {
 
     }
 
-    public Stream<DeliveryPlacementRecord> getDeliveryPlacements() {
-        return getDeliveries()
-                .map(d -> new DeliveryPlacementRecord(d, getPlacementRecord(d.getPlacementId())));
-    }
 
     /**
      * @param dateRange - date reanges of interest

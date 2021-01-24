@@ -21,6 +21,9 @@ public class DataStoreTest {
     public static final LocalDate DEC_15 = FieldMapper.toDate("12/15/2020");
     public static final LocalDate DEC_20 = FieldMapper.toDate("12/20/2020");
 
+    public static final LocalDate DEC_23_2025 = FieldMapper.toDate("12/23/2025");
+    public static final LocalDate JAN_23_2026 = FieldMapper.toDate("1/23/2026");
+
     // Create 2 DeliveryRecords for every date between 12/1 and 12/15 but 12/10
     public static final DeliveryRecord DR_DEC_1_100 = new DeliveryRecord(1, DEC_1, 100);
     public static final DeliveryRecord DR_DEC_1_200 = new DeliveryRecord(2, DEC_1, 200);
@@ -47,7 +50,7 @@ public class DataStoreTest {
     }
 
     @Test
-    public void testRetrieveDeliverRecordsInRange() {
+    public void testRetrieveDeliveryRecordsInRange() {
         // Retrieve an interesting range, the dates for which have no records,
         // but which should include those records from 12/1 and 12/7
         DateRange dateRange = new DateRange(NOV_1, DEC_10);
@@ -80,5 +83,12 @@ public class DataStoreTest {
 
     }
 
-
+    @Test
+    public void testNoDeliveryRecordsInRange() {
+        // We have no deliveries this far into the future
+        DateRange dateRange = new DateRange(DEC_23_2025, JAN_23_2026);
+        List<DeliveryRecord> retrieved = dataStore.getDeliveries(dateRange)
+                                                  .collect(Collectors.toList());
+        Assert.assertTrue(retrieved.isEmpty());
+    }
 }

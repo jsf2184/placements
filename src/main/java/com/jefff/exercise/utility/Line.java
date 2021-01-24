@@ -1,4 +1,4 @@
-package com.jefff.exercise.io.input;
+package com.jefff.exercise.utility;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

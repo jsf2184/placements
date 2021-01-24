@@ -68,6 +68,10 @@ public class Parser {
             final String[] parts = validateNumFields(rangeLine, "-", NUM_RANGE_FIELDS, "DateRange", lineNumber);
             final LocalDate start = toLocalDate(parts[0], "start", "DateRange", lineNumber);
             final LocalDate end = toLocalDate(parts[1], "end", "DateRange", lineNumber);
+            if (end.isBefore(start)) {
+                log.warn("DateRange Parsing Error. EndDate='{}' precedes startDate='{}'", end, start);
+                return null;
+            }
             return new DateRange(start, end);
 
         } catch (Exception ignore) {

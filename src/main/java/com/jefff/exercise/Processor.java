@@ -1,13 +1,15 @@
 package com.jefff.exercise;
 
-import com.jefff.exercise.utility.PaddedArrayList;
-import com.jefff.exercise.io.input.LineStream;
-import com.jefff.exercise.api.response.DateRangeQueryResponse;
-import com.jefff.exercise.utility.Parser;
-import com.jefff.exercise.api.response.PlacementCount;
+import com.jefff.exercise.api.request.DateRange;
 import com.jefff.exercise.persistence.DataStore;
-import com.jefff.exercise.service.ReportingService;
+import com.jefff.exercise.report.ReportingService;
+import com.jefff.exercise.report.generation.DateRangeReportGenerator;
+import com.jefff.exercise.report.generation.PlacementCountReportGenerator;
+import com.jefff.exercise.report.printing.DateRangeReportPrinter;
+import com.jefff.exercise.report.printing.PlacementCountReportPrinter;
 import com.jefff.exercise.utility.ArgParser;
+import com.jefff.exercise.utility.LineStream;
+import com.jefff.exercise.utility.Parser;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.Objects;
@@ -21,7 +23,6 @@ public class Processor {
     private final LineStream queryLineStream;
     private final DataStore dataStore;
     private ReportingService reportingService;
-
 
     public static void main(String[] args) {
         ArgParser argParser = new ArgParser(args);
@@ -48,14 +49,16 @@ public class Processor {
 
         Parser parser = new Parser(true);
         DataStore dataStore = new DataStore();
-        ReportingService reportingService = new ReportingService(dataStore);
+        ReportingService reportingService = new ReportingService(new PlacementCountReportGenerator(dataStore),
+                                                                 new PlacementCountReportPrinter(),
+                                                                 new DateRangeReportGenerator(dataStore),
+                                                                 new DateRangeReportPrinter());
         Processor processor = new Processor(parser,
                                             placementInputStream,
                                             deliveryInputStream,
                                             queryInputStream,
                                             dataStore,
                                             reportingService);
-
         processor.process();
     }
 
@@ -74,20 +77,17 @@ public class Processor {
         this.reportingService = reportingService;
     }
 
-
     public void process() {
         persistData();
-        // Create our standard report (Counts per Placement)
-        final PaddedArrayList<PlacementCount> placementCounts = reportingService.generatePrimaryReport();
-        // And print the report
-        reportingService.printPrimaryReport(placementCounts);
+        reportingService.handlePlacementCountReport();
 
         // And now process our range query requests
-
-        Stream<DateRangeQueryResponse> rangeQueryResponseStream = reportingService.generateDateQueryReponseStream(queryLineStream);
-        // And print the rangeQuery responses
-
-
+        if (queryLineStream != null) {
+            final Stream<DateRange> dateRangeStream = queryLineStream.getStream()
+                                                                     .map(line -> parser.parseDateRange(line.getText(), line.getLineNumber()))
+                                                                     .filter(Objects::nonNull);
+            reportingService.handleDateRangeReport(dateRangeStream);
+        }
     }
 
     public void persistData() {
@@ -101,6 +101,4 @@ public class Processor {
                           .filter(Objects::nonNull)
                           .forEach(dataStore::add);
     }
-
-
 }

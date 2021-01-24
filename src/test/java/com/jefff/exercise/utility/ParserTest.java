@@ -3,8 +3,6 @@ package com.jefff.exercise.utility;
 import com.jefff.exercise.api.request.DateRange;
 import com.jefff.exercise.entity.DeliveryRecord;
 import com.jefff.exercise.entity.PlacementRecord;
-import com.jefff.exercise.utility.FieldMapper;
-import com.jefff.exercise.utility.Parser;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -74,6 +72,7 @@ public class ParserTest {
 
     @Test
     public void testBadDateRangeParse() {
+        Assert.assertNull(parser.parseDateRange("11/30/20-11/1/20", 1));
         Assert.assertNull(parser.parseDateRange("11/1/20+11/30/20", 1));
         Assert.assertNull(parser.parseDateRange("11/1/20 11/30/20", 1));
         Assert.assertNull(parser.parseDateRange("11/1/20-11/30/", 1));

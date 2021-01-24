@@ -1,44 +1,33 @@
-package com.jefff.exercise.service;
+package com.jefff.exercise.report.generation;
 
-import com.jefff.exercise.utility.PaddedArrayList;
-import com.jefff.exercise.io.input.LineStream;
-import com.jefff.exercise.api.response.DateRangeQueryResponse;
-import com.jefff.exercise.entity.DeliveryRecord;
 import com.jefff.exercise.api.response.PlacementCount;
+import com.jefff.exercise.entity.DeliveryRecord;
 import com.jefff.exercise.persistence.DataStore;
+import com.jefff.exercise.utility.PaddedArrayList;
 import lombok.extern.slf4j.Slf4j;
 
-import java.util.Objects;
-import java.util.stream.Stream;
-
 @Slf4j
-public class ReportingService {
+public class PlacementCountReportGenerator {
     DataStore dataStore;
 
-    public ReportingService(DataStore dataStore) {
+    public PlacementCountReportGenerator(DataStore dataStore) {
         this.dataStore = dataStore;
     }
 
-    public PaddedArrayList<PlacementCount> generatePrimaryReport() {
-        // Create a 'placementCounts' PaddedArrayListCollection (indexed by placementId) to accumulate per
-        // Placement Counts.
-        log.info("Primary Report With PlacementCounts follows...\n");
+    public PaddedArrayList<PlacementCount> generatePlacementCounts() {
+        // Create a skeletal 'placementCounts' PaddedArrayListCollection (indexed by placementId)
+        // to accumulate per Placement Counts.
+        //
         PaddedArrayList<PlacementCount> placementCounts = new PaddedArrayList<>();
         dataStore.getPlacements()
                  .map(PlacementCount::new)
                  .forEach(pc -> placementCounts.add(pc.getId(), pc));
 
-        // Now go thru all of the deliveries, adding the count
+        // Now go thru all of the deliveries, adding the count from each delivery to the
+        // appropriate PlacementCount.
+        //
         dataStore.getDeliveries().forEach(delivery -> addDeliveryCountToPlacement(delivery, placementCounts));
         return placementCounts;
-    }
-
-
-    public void printPrimaryReport(PaddedArrayList<PlacementCount> placementCounts) {
-        placementCounts
-                .stream()
-                .filter(Objects::nonNull) // null entries can exist in our placementCounts array if there are gaps in the IDs
-                .forEach(placementCount -> System.out.println(placementCount.toString()));
     }
 
 
@@ -61,8 +50,4 @@ public class ReportingService {
         placementCount.incrementImpressionCount(delivery.getNumImpressions());
     }
 
-
-    public Stream<DateRangeQueryResponse> generateDateQueryReponseStream(LineStream queryInputStream) {
-        return null;
-    }
 }
