@@ -12,6 +12,7 @@ import com.jefff.exercise.utility.LineStream;
 import com.jefff.exercise.utility.Parser;
 import lombok.extern.slf4j.Slf4j;
 
+import java.io.PrintWriter;
 import java.util.Objects;
 import java.util.stream.Stream;
 
@@ -29,37 +30,43 @@ public class Processor {
         if (!argParser.process()) {
             return;
         }
-
-        LineStream placementInputStream;
-        LineStream deliveryInputStream;
-        LineStream queryInputStream = null;
-
         try {
-            placementInputStream = LineStream.getLineStream(argParser.getPlacementFileName());
-            deliveryInputStream = LineStream.getLineStream(argParser.getDeliveryFileName());
-            final String queryFileName = argParser.getQueryFileName();
-            if (queryFileName != null && queryFileName.length() > 0) {
-                queryInputStream = LineStream.getLineStream(queryFileName);
-            }
+            Processor processor = createProcessor(argParser.getPlacementFileName(),
+                                                  argParser.getDeliveryFileName(),
+                                                  argParser.getQueryFileName(),
+                                                  new PrintWriter(System.out, true));
+            processor.process();
         } catch (Exception e) {
             log.error(e.getMessage());
             log.error("File Access problems! Exiting.");
-            return;
+        }
+    }
+
+    public static Processor createProcessor(String placementFileName,
+                                            String deliveryFileName,
+                                            String queryFileName,
+                                            PrintWriter printWriter) throws Exception {
+        LineStream queryInputStream = null;
+        LineStream placementInputStream = LineStream.getLineStream(placementFileName);
+        LineStream deliveryInputStream = LineStream.getLineStream(deliveryFileName);
+        if (queryFileName != null && queryFileName.length() > 0) {
+            queryInputStream = LineStream.getLineStream(queryFileName);
         }
 
         Parser parser = new Parser(true);
         DataStore dataStore = new DataStore();
         ReportingService reportingService = new ReportingService(new PlacementCountReportGenerator(dataStore),
-                                                                 new PlacementCountReportPrinter(),
+                                                                 new PlacementCountReportPrinter(printWriter),
                                                                  new DateRangeReportGenerator(dataStore),
-                                                                 new DateRangeReportPrinter());
+                                                                 new DateRangeReportPrinter(printWriter));
         Processor processor = new Processor(parser,
                                             placementInputStream,
                                             deliveryInputStream,
                                             queryInputStream,
                                             dataStore,
                                             reportingService);
-        processor.process();
+        return processor;
+
     }
 
     public Processor(Parser parser,

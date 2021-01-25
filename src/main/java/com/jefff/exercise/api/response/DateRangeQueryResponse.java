@@ -3,8 +3,12 @@ package com.jefff.exercise.api.response;
 import com.jefff.exercise.api.request.DateRange;
 import com.jefff.exercise.utility.FieldMapper;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @EqualsAndHashCode
+@Getter
 public class DateRangeQueryResponse {
     DateRange dateRange;
     long impressions;

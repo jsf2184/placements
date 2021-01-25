@@ -54,11 +54,17 @@ public class PlacementCountReportGeneratorTest {
         Assert.assertNull(actual.get(1));
 
         final PlacementCount resultForPlacement2 = actual.get(2);
-        // Build expectations for placement 2
+        // Build expectations for placement 2 (which is easy since it has no deliveries)
         PlacementCount expectedForPlacement2 = new PlacementCount(placementRecord2);
         Assert.assertEquals(expectedForPlacement2, resultForPlacement2);
 
         final PlacementCount resultForPlacement3 = actual.get(3);
+        // Build expectations for placement 3
+        PlacementCount expectedForPlacement3 = new PlacementCount(placementRecord3);
+        expectedForPlacement3.incrementImpressionCount(GOOD_DELIVERY1_IMPRESSIONS);
+        expectedForPlacement3.incrementImpressionCount(GOOD_DELIVERY2_IMPRESSIONS);
+        Assert.assertEquals(expectedForPlacement3, resultForPlacement3);
+
 
 
     }
