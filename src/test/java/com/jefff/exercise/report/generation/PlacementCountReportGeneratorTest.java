@@ -4,8 +4,8 @@ import com.jefff.exercise.api.response.PlacementCount;
 import com.jefff.exercise.entity.DeliveryRecord;
 import com.jefff.exercise.entity.PlacementRecord;
 import com.jefff.exercise.persistence.DataStore;
+import com.jefff.exercise.utility.DynamicArray;
 import com.jefff.exercise.utility.FieldMapper;
-import com.jefff.exercise.utility.PaddedArrayList;
 import com.jefff.exercise.utility.Parser;
 import org.junit.Assert;
 import org.junit.Before;
@@ -49,7 +49,7 @@ public class PlacementCountReportGeneratorTest {
 
     @Test
     public void testGeneratePlacementCounts() {
-        final PaddedArrayList<PlacementCount> actual = placementCountReportGenerator.generatePlacementCounts();
+        final DynamicArray<PlacementCount> actual = placementCountReportGenerator.generatePlacementCounts();
         Assert.assertNull(actual.get(0));
         Assert.assertNull(actual.get(1));
 
