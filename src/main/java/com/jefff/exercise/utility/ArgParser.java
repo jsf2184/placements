@@ -28,7 +28,9 @@ public class ArgParser {
         for (int i = 0; i < numArgs; i++) {
             String arg = args[i];
             switch (arg) {
+
                 case "-h":
+                case "-help":
                     printUsage();
                     return false;
 
@@ -76,7 +78,7 @@ public class ArgParser {
     }
 
     private void printUsage() {
-        System.err.println("Usage: |-df deliveryFileName| |-pf placementFileName| |-qf queryFileName| |-h|");
+        System.err.println("Usage: |-df deliveryFileName| |-pf placementFileName| |-qf queryFileName| |-help|");
         System.err.printf("  deliveryFileName:     default = %s\n", DEFAULT_DELIVERY_FILE);
         System.err.printf("  placementFileName:    default = %s\n", DEFAULT_PLACEMENTS_FILE);
         System.err.printf("  queryFileName:        default = %s\n", "<null>");
