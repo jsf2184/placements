@@ -3,22 +3,22 @@ package com.jefff.exercise.utility;
 import java.util.ArrayList;
 import java.util.Collection;
 
-public class PaddedArrayList<T> extends ArrayList<T> {
-    public PaddedArrayList(int initialCapacity) {
+public class DynamicArray<T> extends ArrayList<T> {
+    public DynamicArray(int initialCapacity) {
         super(initialCapacity);
     }
 
-    public PaddedArrayList() {
+    public DynamicArray() {
     }
 
-    public PaddedArrayList(Collection<? extends T> c) {
+    public DynamicArray(Collection<? extends T> c) {
         super(c);
     }
 
     /**
      * add()
      * <p>
-     * This override version of add() padds out the Array list with null entries if the index is > size
+     * This override version of add() pads out the Array list with null entries if the index is > size
      * before adding the element at the specified index.
      *
      * @param index   - Add the element at this index

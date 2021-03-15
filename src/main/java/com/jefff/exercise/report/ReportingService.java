@@ -7,7 +7,7 @@ import com.jefff.exercise.report.generation.DateRangeReportGenerator;
 import com.jefff.exercise.report.generation.PlacementCountReportGenerator;
 import com.jefff.exercise.report.printing.DateRangeReportPrinter;
 import com.jefff.exercise.report.printing.PlacementCountReportPrinter;
-import com.jefff.exercise.utility.PaddedArrayList;
+import com.jefff.exercise.utility.DynamicArray;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.stream.Stream;
@@ -31,7 +31,7 @@ public class ReportingService {
     }
 
     public void handlePlacementCountReport() {
-        final PaddedArrayList<PlacementCount> placementCounts = placementCountReportGenerator.generatePlacementCounts();
+        final DynamicArray<PlacementCount> placementCounts = placementCountReportGenerator.generatePlacementCounts();
         placementCountReportPrinter.printPlacementCountReport(placementCounts);
     }
 

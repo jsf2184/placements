@@ -1,7 +1,7 @@
 package com.jefff.exercise.report.printing;
 
 import com.jefff.exercise.api.response.PlacementCount;
-import com.jefff.exercise.utility.PaddedArrayList;
+import com.jefff.exercise.utility.DynamicArray;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.PrintWriter;
@@ -15,7 +15,7 @@ public class PlacementCountReportPrinter {
         this.writer = writer;
     }
 
-    public void printPlacementCountReport(PaddedArrayList<PlacementCount> placementCounts) {
+    public void printPlacementCountReport(DynamicArray<PlacementCount> placementCounts) {
         writer.printf("\n\nPrimary Report With PlacementCounts follows...\n");
         placementCounts
                 .stream()

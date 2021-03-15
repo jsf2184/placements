@@ -3,7 +3,7 @@ package com.jefff.exercise.report.generation;
 import com.jefff.exercise.api.response.PlacementCount;
 import com.jefff.exercise.entity.DeliveryRecord;
 import com.jefff.exercise.persistence.DataStore;
-import com.jefff.exercise.utility.PaddedArrayList;
+import com.jefff.exercise.utility.DynamicArray;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -14,11 +14,11 @@ public class PlacementCountReportGenerator {
         this.dataStore = dataStore;
     }
 
-    public PaddedArrayList<PlacementCount> generatePlacementCounts() {
+    public DynamicArray<PlacementCount> generatePlacementCounts() {
         // Create a skeletal 'placementCounts' PaddedArrayListCollection (indexed by placementId)
         // to accumulate per Placement Counts.
         //
-        PaddedArrayList<PlacementCount> placementCounts = new PaddedArrayList<>();
+        DynamicArray<PlacementCount> placementCounts = new DynamicArray<>();
         dataStore.getPlacements()
                  .map(PlacementCount::new)
                  .forEach(pc -> placementCounts.add(pc.getId(), pc));
@@ -41,7 +41,7 @@ public class PlacementCountReportGenerator {
      * @param delivery        - the deliverRecord being processed
      * @param placementCounts - a PaddedArrayList collection of all the PlacementCounts
      */
-    static void addDeliveryCountToPlacement(DeliveryRecord delivery, PaddedArrayList<PlacementCount> placementCounts) {
+    static void addDeliveryCountToPlacement(DeliveryRecord delivery, DynamicArray<PlacementCount> placementCounts) {
         final PlacementCount placementCount = placementCounts.get(delivery.getPlacementId());
         if (placementCount == null || !placementCount.includesDate(delivery.getDate())) {
             log.warn("Could not find suitable placement for deliveryRecord: {}", delivery.toString());
