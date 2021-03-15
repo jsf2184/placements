@@ -10,6 +10,8 @@ public class DateRangeQueryResponseTest  {
 
     @Test
     public void testAddAndFormat() {
+        String[] arr; // dumb array
+
         Parser parser = new Parser(false);
         DateRange dateRange = parser.parseDateRange("11/22/2020-12/5/2020", 1);
         DateRangeQueryResponse queryResponse = new DateRangeQueryResponse(dateRange);
