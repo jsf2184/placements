@@ -20,7 +20,7 @@ public class Parser {
         this.skipHeaderLine = skipHeaderLine;
     }
 
-    public DeliveryRecord parseDelivery(String csvLine, int lineNumber) {
+    public DeliveryRecord parseDeliveryLine(String csvLine, int lineNumber) {
         if (lineNumber == 1 && skipHeaderLine) {
             // Don't bother parsing the header line.
             return null;

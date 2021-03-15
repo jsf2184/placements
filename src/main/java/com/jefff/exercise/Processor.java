@@ -104,7 +104,7 @@ public class Processor {
                            .forEach(dataStore::add);
 
         deliveryLineStream.getStream()
-                          .map(line -> parser.parseDelivery(line.getText(), line.getLineNumber()))
+                          .map(line -> parser.parseDeliveryLine(line.getText(), line.getLineNumber()))
                           .filter(Objects::nonNull)
                           .forEach(dataStore::add);
     }

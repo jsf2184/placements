@@ -13,21 +13,21 @@ public class ParserTest {
     @Test
     public void testGoodImpressionParse() {
         DeliveryRecord expected = new DeliveryRecord(3, FieldMapper.toDate(2020, 1, 24), 2345);
-        final DeliveryRecord actual = parser.parseDelivery("3,01/24/2020,2345", 2);
+        final DeliveryRecord actual = parser.parseDeliveryLine("3,01/24/2020,2345", 2);
         Assert.assertEquals(expected, actual);
     }
 
     @Test
     public void testBadImpressionParse() {
-        Assert.assertNull(parser.parseDelivery(null, 1));
-        Assert.assertNull(parser.parseDelivery("", 2));
-        Assert.assertNull(parser.parseDelivery(",,", 3));
-        Assert.assertNull(parser.parseDelivery("3,,", 4));
-        Assert.assertNull(parser.parseDelivery("3,01/24/2020,", 5));
-        Assert.assertNull(parser.parseDelivery("3,01/24/202x,2345", 6));
-        Assert.assertNull(parser.parseDelivery("3,01/24/2020,abc", 7));
-        Assert.assertNull(parser.parseDelivery("abc,01/24/2020,2345", 8));
-        Assert.assertNull(parser.parseDelivery("3,01/24/2020,2345,4", 9));
+        Assert.assertNull(parser.parseDeliveryLine(null, 1));
+        Assert.assertNull(parser.parseDeliveryLine("", 2));
+        Assert.assertNull(parser.parseDeliveryLine(",,", 3));
+        Assert.assertNull(parser.parseDeliveryLine("3,,", 4));
+        Assert.assertNull(parser.parseDeliveryLine("3,01/24/2020,", 5));
+        Assert.assertNull(parser.parseDeliveryLine("3,01/24/202x,2345", 6));
+        Assert.assertNull(parser.parseDeliveryLine("3,01/24/2020,abc", 7));
+        Assert.assertNull(parser.parseDeliveryLine("abc,01/24/2020,2345", 8));
+        Assert.assertNull(parser.parseDeliveryLine("3,01/24/2020,2345,4", 9));
     }
 
 
